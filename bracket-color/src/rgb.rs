@@ -1,5 +1,6 @@
 use crate::prelude::{HSV, RGBA};
 use std::convert::From;
+use std::fmt::Display;
 use std::ops;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -23,6 +24,16 @@ pub enum HtmlColorConversionError {
     MissingHash,
     /// An unexpected character (not #, A-F) was detected in the color string.
     InvalidCharacter,
+}
+
+impl Display for HtmlColorConversionError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            HtmlColorConversionError::InvalidStringLength => write!(f, "invalid string length"),
+            HtmlColorConversionError::MissingHash => write!(f, "missing hash"),
+            HtmlColorConversionError::InvalidCharacter => write!(f, "invalid character"),
+        }
+    }
 }
 
 // Implement operator overloading
